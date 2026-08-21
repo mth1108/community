@@ -79,7 +79,7 @@ function MainContent() {
                     onClick={() => handleNavigateDetail(p.id)}
                   >{p.title}</span>
                   <span className="text-stone-600">{p.name}</span>
-                  <span className="text-right text-stone-500">{p.data}</span>
+                  <span className="text-right text-stone-500">{p.date}</span>
                 </li>
               ))}
             </ul>
