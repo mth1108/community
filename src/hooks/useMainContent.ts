@@ -7,7 +7,8 @@ export function useMainContent() {
 
   useEffect(() => {
     axios({
-      url: 'https://32f1-121-161-186-85.ngrok-free.app/selectPosts',
+      // url: 'https://32f1-121-161-186-85.ngrok-free.app/selectPosts',
+      url: 'http://localhost:8080/selectPosts',
       method: 'get',
       headers: {
         'ngrok-skip-browser-warning': 'true'

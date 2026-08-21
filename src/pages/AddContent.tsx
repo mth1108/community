@@ -29,7 +29,8 @@ function AddContent() {
 
   const handlePostPosts = () => {
     axios({
-      url: "https://32f1-121-161-186-85.ngrok-free.app/addposts", // 통신할 웹문서
+      // url: "https://32f1-121-161-186-85.ngrok-free.app/addposts", // 통신할 웹문서
+      url: "http://localhost:8080/addposts", // 통신할 웹문서
       method: 'post', // 통신할 방식
       headers: {
         'ngrok-skip-browser-warning': 'true'
