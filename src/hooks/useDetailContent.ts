@@ -12,7 +12,10 @@ export function useDetailContent() {
     axios({
       url: 'https://32f1-121-161-186-85.ngrok-free.app/selectPostsDetail',
       method: 'get',
-      params: { id }
+      params: { id },
+      headers: {
+        'ngrok-skip-browser-warning': 'true'
+      }
     })
       .then(response => {
         setPostsDetail(response.data);
