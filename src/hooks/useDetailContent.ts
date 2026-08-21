@@ -10,7 +10,7 @@ export function useDetailContent() {
 
   useEffect(() => {
     axios({
-      url: 'http://localhost:8080/selectPostsDetail',
+      url: 'https://32f1-121-161-186-85.ngrok-free.app/selectPostsDetail',
       method: 'get',
       params: { id }
     })
