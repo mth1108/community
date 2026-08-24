@@ -1,9 +1,16 @@
 import {useEffect, useState} from "react";
 import axios from "axios";
 
+type Post = {
+  id: number;
+  title: string;
+  name: string;
+  date: string;
+}
+
 export function useMainContent() {
 
-  const [postsList, setPostsList] = useState<any[]>([]);
+  const [postsList, setPostsList] = useState<Post[]>([]);
 
   useEffect(() => {
     axios({
