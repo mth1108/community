@@ -1,21 +1,9 @@
 import {useNavigate} from "react-router-dom";
-// import axios from "axios";
-// import {useEffect, useState} from "react";
 import {useMainContent} from "../hooks/useMainContent.ts";
-
-// const POSTS = [
-//   { id: 5, title: '게시판 프로젝트를 이제 막 시작했습니다', name: '김하늘', date: '2026.08.13' },
-//   { id: 4, title: 'React와 스프링부트 연동, 이렇게 했어요', name: '이준호', date: '2026.08.12' },
-//   { id: 3, title: 'MySQL 스키마 설계하며 배운 점 정리', name: '박서연', date: '2026.08.11' },
-//   { id: 2, title: '오늘 배운 것 기록 — 첫 TIL', name: '정민우', date: '2026.08.10' },
-//   { id: 1, title: '다들 반가워요, 자유롭게 인사 나눠요', name: '최유진', date: '2026.08.09' },
-// ]
 
 const GRID = 'grid grid-cols-[48px_1fr_96px_112px] items-center gap-4'
 
 function MainContent() {
-
-  // const [postsList, setPostsList] = useState([]);
 
   const useMC = useMainContent();
 
@@ -31,20 +19,6 @@ function MainContent() {
   const handleNavigateDetail = (pId: number) => {
     navigate(`${pId}`);
   }
-
-  // useEffect(() => {
-  //   axios({
-  //     url: 'http://localhost:8080/selectPosts',
-  //     method: 'get',
-  //   })
-  //     .then(response => {
-  //       // console.log("받은 데이터:", response.data, typeof response.data);
-  //       setPostsList(response.data);
-  //       // console.log(postsList);
-  //     });
-  // }, []);
-
-
 
   return (
     <div className="min-h-dvh bg-stone-50 text-stone-900">

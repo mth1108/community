@@ -27,7 +27,18 @@ function AddContent() {
     setContent(e.target.value)
   }
 
-  const handlePostPosts = () => {
+  const handleInsertPosts = () => {
+
+    if(title === '') {
+      return;
+    }
+    if(name === '') {
+      return;
+    }
+    if(content === '') {
+      return;
+    }
+
     axios({
       // url: "https://32f1-121-161-186-85.ngrok-free.app/addposts", // 통신할 웹문서
       url: "http://localhost:8080/addposts", // 통신할 웹문서
@@ -93,7 +104,7 @@ function AddContent() {
             <div>
               <button
                 className="border w-12 h-10 text-white bg-blue-500"
-                onClick={handlePostPosts}
+                onClick={handleInsertPosts}
               >
                 작성
               </button>
