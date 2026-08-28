@@ -52,7 +52,10 @@ export function useDetailContentDelete() {
     // url: 'http://localhost:8080/deletePostsDetail',
     url: 'https://glabrescent-squirtingly-diedre.ngrok-free.dev/deletePostsDetail',
     method: "DELETE",
-    params: { id }
+    params: { id },
+    headers: {
+      'ngrok-skip-browser-warning': 'true'
+    },
   })
 
   // console.log(deleteApi);
@@ -76,7 +79,10 @@ export function useDetailContentUpdate(pTitle: string, pName: string, pContent: 
         name: pName,
         content: pContent
       },
-      params: {id}
+      params: {id},
+      headers: {
+        'ngrok-skip-browser-warning': 'true'
+      },
     })
 
 
