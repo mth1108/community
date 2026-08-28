@@ -42,7 +42,7 @@ function AddContent() {
     }
 
     axios({
-      url: "https://glabrescent-squirtingly-diedre.ngrok-free.dev/addposts", // 통신할 웹문서
+      url: "https://community-orcin-theta.vercel.app/addposts", // 통신할 웹문서
       // url: "http://localhost:8080/addposts", // 통신할 웹문서
       method: 'post', // 통신할 방식
       headers: {

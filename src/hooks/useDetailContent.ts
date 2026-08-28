@@ -26,7 +26,7 @@ export function useDetailContent() {
 
   useEffect(() => {
     axios({
-      url: 'https://glabrescent-squirtingly-diedre.ngrok-free.dev/selectPostsDetail',
+      url: 'https://community-orcin-theta.vercel.app/selectPostsDetail',
       // url: 'http://localhost:8080/selectPostsDetail',
       method: 'get',
       params: { id },
@@ -50,7 +50,7 @@ export function useDetailContentDelete() {
 
   const deleteApi= () => axios({
     // url: 'http://localhost:8080/deletePostsDetail',
-    url: 'https://glabrescent-squirtingly-diedre.ngrok-free.dev/deletePostsDetail',
+    url: 'https://community-orcin-theta.vercel.app/deletePostsDetail',
     method: "DELETE",
     params: { id },
     headers: {
@@ -63,16 +63,13 @@ export function useDetailContentDelete() {
   return {deleteApi}
 }
 
-
-
-
 export function useDetailContentUpdate(pTitle: string, pName: string, pContent: string) {
 
   const { id } = useParams<{ id: string }>()
 
   const updateApi = () => axios({
       // url: 'http://localhost:8080/updatePostsDetail',
-      url: 'https://glabrescent-squirtingly-diedre.ngrok-free.dev/updatePostsDetail',
+      url: 'https://community-orcin-theta.vercel.app/updatePostsDetail',
       method: "PATCH",
       data: {
         title: pTitle,
