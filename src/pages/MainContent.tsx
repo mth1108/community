@@ -10,13 +10,20 @@ function MainContent() {
 
   // 페이지 위치 유지 기능 있어야함
   // 3페이지에서 글쓰기나 상세 조회후 1로 이동하는 문제 있음 -> 기본값이 1이라서 생기는 문제
-  // 페이지 나눈 갯수에 따라 늘어나야 함
+  // 페이지 나눈 갯수에 따라 늘어나야 함 -> 반정도 해결
 
+
+  // 1. selectPosts요청이 2번감
+  // 2. 첫번째 요청은 쿼리스트링이 붙어서 가지만 2번째 요청은 안붙음
+  // 3. 예상: selectPostsId가 잘못 요청되어 selectPosts로 가는듯.
+  // 4. 근거:
 
   const useMC = useMainContent(page,7);
   const postData = useMC.postsList;
+  // 검색 구현
   const compare = postData.filter(post => post.title.toLowerCase().includes(search.toLowerCase()) || post.name.toLowerCase().includes(search.toLowerCase()))
 
+  // 페이징 구현
   const { postsIdList } = useSelectId();
   const pgCount = Array(Math.floor(postsIdList.length / 7)+1).fill(0);
   const pgBtn = Array.from({ length: pgCount.length }, (_, i) => i + 1);
