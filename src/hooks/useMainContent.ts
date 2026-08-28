@@ -44,7 +44,7 @@ export function useSelectId() {
 
   useEffect(() => {
     axios({
-      url: 'https://glabrescent-squirtingly-diedre.ngrok-free.dev/selectPosts',
+      url: 'https://glabrescent-squirtingly-diedre.ngrok-free.dev/selectPostsId',
       // 나중에 페이지 및 사이즈는 인자로 받을 예정(아마)
       // url: 'http://localhost:8080/selectPostsId',
       method: 'get',
