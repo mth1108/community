@@ -26,8 +26,8 @@ export function useDetailContent() {
 
   useEffect(() => {
     axios({
-      // url: 'https://32f1-121-161-186-85.ngrok-free.app/selectPostsDetail',
-      url: 'http://localhost:8080/selectPostsDetail',
+      url: 'https://glabrescent-squirtingly-diedre.ngrok-free.dev/selectPostsDetail',
+      // url: 'http://localhost:8080/selectPostsDetail',
       method: 'get',
       params: { id },
       headers: {
@@ -49,7 +49,8 @@ export function useDetailContentDelete() {
   const { id } = useParams<{ id: string }>();
 
   const deleteApi= () => axios({
-    url: 'http://localhost:8080/deletePostsDetail',
+    // url: 'http://localhost:8080/deletePostsDetail',
+    url: 'https://glabrescent-squirtingly-diedre.ngrok-free.dev/deletePostsDetail',
     method: "DELETE",
     params: { id }
   })
@@ -67,7 +68,8 @@ export function useDetailContentUpdate(pTitle: string, pName: string, pContent: 
   const { id } = useParams<{ id: string }>()
 
   const updateApi = () => axios({
-      url: 'http://localhost:8080/updatePostsDetail',
+      // url: 'http://localhost:8080/updatePostsDetail',
+      url: 'https://glabrescent-squirtingly-diedre.ngrok-free.dev/updatePostsDetail',
       method: "PATCH",
       data: {
         title: pTitle,

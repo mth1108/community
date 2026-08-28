@@ -1,7 +1,9 @@
 import axios from "axios";
 import {type ChangeEvent, useState} from "react";
+import {useNavigate} from "react-router-dom";
 
 function AddContent() {
+  const navigate = useNavigate();
 
   const [title, setTitle] = useState<string>("");
   const [name, setName] = useState<string>("");
@@ -40,8 +42,8 @@ function AddContent() {
     }
 
     axios({
-      // url: "https://32f1-121-161-186-85.ngrok-free.app/addposts", // 통신할 웹문서
-      url: "http://localhost:8080/addposts", // 통신할 웹문서
+      url: "https://glabrescent-squirtingly-diedre.ngrok-free.dev/addposts", // 통신할 웹문서
+      // url: "http://localhost:8080/addposts", // 통신할 웹문서
       method: 'post', // 통신할 방식
       headers: {
         'ngrok-skip-browser-warning': 'true'
@@ -53,9 +55,10 @@ function AddContent() {
         date: resultDate
       }
     });
-    setTitle('');
-    setName('');
-    setContent('');
+    // setTitle('');
+    // setName('');
+    // setContent('');
+    navigate('/');
   }
 
   return(

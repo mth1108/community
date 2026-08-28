@@ -9,7 +9,7 @@ function HeaderLayout() {
   }
 
   return(
-    <header className="flex items-center border-b-2 w-full bg-gray-700 text-white border-stone-900 h-16">
+    <header className="flex items-center border-b-2 w-full bg-gray-700 text-white border-stone-900 h-18">
       <h1 className="pl-3 text-3xl font-bold" onClick={handleNavigateMain}>Community</h1>
     </header>
   );
