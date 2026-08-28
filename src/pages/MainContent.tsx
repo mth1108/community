@@ -16,12 +16,10 @@ function MainContent() {
   // 1. selectPosts요청이 2번감
   // 2. 첫번째 요청은 쿼리스트링이 붙어서 가지만 2번째 요청은 안붙음
   // 3. 예상: selectPostsId가 잘못 요청되어 selectPosts로 가는듯.
-  // 4. 근거:
 
-  const useMC = useMainContent(page,7);
-  const postData = useMC.postsList;
+  const { postsList } = useMainContent(page,7);
   // 검색 구현
-  const compare = postData.filter(post => post.title.toLowerCase().includes(search.toLowerCase()) || post.name.toLowerCase().includes(search.toLowerCase()))
+  const compare = postsList.filter(post => post.title.toLowerCase().includes(search.toLowerCase()) || post.name.toLowerCase().includes(search.toLowerCase()))
 
   // 페이징 구현
   const { postsIdList } = useSelectId();
@@ -90,8 +88,6 @@ function MainContent() {
         {/* 페이지네이션 버튼 */}
 
         {/*------------------------------------flex 가로정렬로 바꿀것*/}
-
-
         {pgBtn.map(b => (
           <div className="mt-4" key={b}>
             <ul className="flex gap-5 justify-center items-center">
