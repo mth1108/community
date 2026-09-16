@@ -25,19 +25,21 @@ export function useDetailContent() {
   );
 
   useEffect(() => {
-    axios({
-      url: 'https://glabrescent-squirtingly-diedre.ngrok-free.dev/selectPostsDetail',
-      // url: 'http://localhost:8080/selectPostsDetail',
-      method: 'get',
-      params: { id },
-      headers: {
-        'ngrok-skip-browser-warning': 'true'
-      }
-    })
-      .then(response => {
-        setPostsDetail(response.data);
-        console.log(response.data);
+    const fetchDetail = async () => {
+      const response = await axios({
+        // url: 'https://glabrescent-squirtingly-diedre.ngrok-free.dev/selectPostsDetail',
+        url: '/api/posts/selectPostsDetail',
+        method: 'get',
+        params: { id },
+        headers: {
+          'ngrok-skip-browser-warning': 'true'
+        }
       });
+      setPostsDetail(response.data);
+      console.log(response.data);
+    };
+
+    fetchDetail();
   }, []);
 
   return postsDetail;
@@ -48,15 +50,17 @@ export function useDetailContentDelete() {
 
   const { id } = useParams<{ id: string }>();
 
-  const deleteApi= () => axios({
-    // url: 'http://localhost:8080/deletePostsDetail',
-    url: 'https://glabrescent-squirtingly-diedre.ngrok-free.dev/deletePostsDetail',
-    method: "DELETE",
-    params: { id },
-    headers: {
-      'ngrok-skip-browser-warning': 'true'
-    },
-  })
+  const deleteApi = async () => {
+    return await axios({
+      url: '/api/posts/deletePostsDetail',
+      // url: 'https://glabrescent-squirtingly-diedre.ngrok-free.dev/deletePostsDetail',
+      method: "DELETE",
+      params: { id },
+      headers: {
+        'ngrok-skip-browser-warning': 'true'
+      },
+    });
+  }
 
   // console.log(deleteApi);
 
@@ -67,9 +71,10 @@ export function useDetailContentUpdate(pTitle: string, pName: string, pContent: 
 
   const { id } = useParams<{ id: string }>()
 
-  const updateApi = () => axios({
-      // url: 'http://localhost:8080/updatePostsDetail',
-      url: 'https://glabrescent-squirtingly-diedre.ngrok-free.dev/updatePostsDetail',
+  const updateApi = async () => {
+    return await axios({
+      url: '/api/posts/updatePostsDetail',
+      // url: 'https://glabrescent-squirtingly-diedre.ngrok-free.dev/updatePostsDetail',
       method: "PATCH",
       data: {
         title: pTitle,
@@ -80,7 +85,8 @@ export function useDetailContentUpdate(pTitle: string, pName: string, pContent: 
       headers: {
         'ngrok-skip-browser-warning': 'true'
       },
-    })
+    });
+  }
 
 
   return {updateApi}

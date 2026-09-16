@@ -10,9 +10,8 @@ function ContentDetail() {
   const navigate = useNavigate();
   const [editState, setEditState] = useState(false);
   const [editTitle, setEditTitle] = useState<string>(post.title)
-  const [editName, setEditName] = useState<string>(post.name)
+  const [editName, setEditName] = useState<string>(post.title)
   const [editContent, setEditContent] = useState<string>(post.content)
-
 
   const { updateApi } = useDetailContentUpdate(editTitle, editName, editContent);
 
@@ -25,14 +24,11 @@ function ContentDetail() {
 
   const handleDelete = async () => {
     await deleteApi();
-    navigate("/");
+    navigate("/main");
   }
 
   const handleUpdate = async () => {
     if(editTitle === '') {
-      return;
-    }
-    if(editName === '') {
       return;
     }
     if(editContent === '') {
@@ -46,16 +42,22 @@ function ContentDetail() {
   const onChangeEditTitle = (e: ChangeEvent<HTMLInputElement>) => {
     setEditTitle(e.target.value);
   }
-  const onChangeEditName = (e: ChangeEvent<HTMLInputElement>) => {
-    setEditName(e.target.value);
-  }
   const onChangeEditContent = (e: ChangeEvent<HTMLTextAreaElement>) => {
     setEditContent(e.target.value);
+  }
+
+  const handleBack = () => {
+    navigate("/main")
   }
 
   return (
     <div className="min-h-dvh bg-stone-50 text-stone-900">
       <div className="mx-auto max-w-4xl px-6 py-10">
+
+        <div className="border" onClick={handleBack}>
+          <button>뒤로가기</button>
+        </div>
+
         <div className="rounded-2xl border border-stone-300 bg-white p-8 shadow-sm">
 
           { editState === false ?
@@ -118,8 +120,8 @@ function ContentDetail() {
                   <p className="mb-1 text-xs font-semibold text-stone-500">작성자 이름</p>
                   <input
                     className="w-full rounded border border-stone-300 px-3 py-2 text-stone-600"
-                    value={editName}
-                    onChange={onChangeEditName}
+                    value={post.name}
+                    readOnly
                   />
                 </div>
                 <div className="w-45">

@@ -1,13 +1,15 @@
 import axios from "axios";
-import {type ChangeEvent, useState} from "react";
+import {type ChangeEvent, useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
+import {client} from "../api/client.ts";
 
 function AddContent() {
   const navigate = useNavigate();
 
   const [title, setTitle] = useState<string>("");
-  const [name, setName] = useState<string>("");
   const [content, setContent] = useState<string>("");
+
+  const [userData, setUserData] = useState<{token: string, username: string}>();
 
   const today = new Date();
   const year = today.getFullYear().toString();
@@ -22,43 +24,47 @@ function AddContent() {
   const onChangeTitle = (e: ChangeEvent<HTMLInputElement>) => {
     setTitle(e.target.value)
   }
-  const onChangeName = (e: ChangeEvent<HTMLInputElement>) => {
-    setName(e.target.value)
-  }
   const onChangeContent = (e: ChangeEvent<HTMLTextAreaElement>) => {
     setContent(e.target.value)
   }
 
-  const handleInsertPosts = () => {
+  const handleBack = () => {
+    navigate("/main")
+  }
 
+  useEffect(() => {
+    const me = async () => {
+      const response = await client.get("/auth/me")
+      setUserData(response.data);
+      // console.log(response.data);
+    };
+
+    me();
+  }, []);
+
+  const handleInsertPosts = async () => {
     if(title === '') {
-      return;
-    }
-    if(name === '') {
       return;
     }
     if(content === '') {
       return;
     }
 
-    axios({
-      url: "https://glabrescent-squirtingly-diedre.ngrok-free.dev/addposts", // 통신할 웹문서
-      // url: "http://localhost:8080/addposts", // 통신할 웹문서
+    await axios({
+      // url: "https://glabrescent-squirtingly-diedre.ngrok-free.dev/addposts", // 통신할 웹문서
+      url: "/api/posts/addposts", // 통신할 웹문서
       method: 'post', // 통신할 방식
       headers: {
         'ngrok-skip-browser-warning': 'true'
       },
       data: { // 인자로 보낼 데이터
         title: title,
-        name: name,
+        name: userData?.username,
         content: content,
         date: resultDate
       }
     });
-    // setTitle('');
-    // setName('');
-    // setContent('');
-    navigate('/');
+    navigate('/main');
   }
 
   return(
@@ -68,6 +74,10 @@ function AddContent() {
 
           {/* 메인콘텐츠 */}
           <div className="flex flex-col items-center min-h-dvh mx-auto max-w-4xl px-6 py-6 border">
+
+            <div className="border">
+              <button onClick={handleBack}>뒤로가기</button>
+            </div>
 
             {/* 제목 */}
             <div className="my-4">
@@ -84,8 +94,8 @@ function AddContent() {
             <div className="mb-2">
               <p>작성자</p>
               <input
-                value={name}
-                onChange={onChangeName}
+                value={userData?.username}
+                readOnly
                 className="w-120 border p-1"
                 placeholder="작성자를 입력하세요"
               />

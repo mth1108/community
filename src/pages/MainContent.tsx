@@ -1,46 +1,60 @@
 import {useNavigate} from "react-router-dom";
 import {useMainContent, useSelectId} from "../hooks/useMainContent.ts";
 import {type ChangeEvent, useState} from "react";
+import {tokenStorage} from "../api/tokenStorage.ts";
 
 const GRID = 'grid grid-cols-[48px_1fr_96px_112px] items-center gap-4'
 
 function MainContent() {
   const [search, setSearch] = useState("");
-  const [page, setPage] = useState(1);
+  const [page, setPage] = useState( Number(sessionStorage.getItem('page')) === 0 ? 1 : Number(sessionStorage.getItem('page')) );
 
-  // 페이지 위치 유지 기능 있어야함
-  // 3페이지에서 글쓰기나 상세 조회후 1로 이동하는 문제 있음 -> 기본값이 1이라서 생기는 문제
-  // 페이지 나눈 갯수에 따라 늘어나야 함 -> 반정도 해결
+  // 1. 검색시 각 페이지 별로 검색되는데 검색은 다른 페이지까지 검색되어야 함
+  // -> 검색은 전체 데이터를 활용? (API 하나 더 만들어야 함)
 
-
-  // 1. selectPosts요청이 2번감
-  // 2. 첫번째 요청은 쿼리스트링이 붙어서 가지만 2번째 요청은 안붙음
-  // 3. 예상: selectPostsId가 잘못 요청되어 selectPosts로 가는듯.
-
-  const { postsList } = useMainContent(page,7);
+  const { postsList } = useMainContent(page,6);
   // 검색 구현
   const compare = postsList.filter(post => post.title.toLowerCase().includes(search.toLowerCase()) || post.name.toLowerCase().includes(search.toLowerCase()))
 
   // 페이징 구현
   const { postsIdList } = useSelectId();
-  const pgCount = Array(Math.floor(postsIdList.length / 7)+1).fill(0);
-  const pgBtn = Array.from({ length: pgCount.length }, (_, i) => i + 1);
-
-  console.log(pgBtn);
+  const pgCount = Array(Math.floor(postsIdList.length % 6 === 0 ? postsIdList.length / 6 : postsIdList.length / 6 + 1));
+  const pgBtn = Array.from({ length: pgCount.length }, (_, i) => {
+    // 2 안사라짐 수정
+    if(i / 7 === 0) {
+      return 1;
+    } else {
+      return i + 1;
+    }
+  });
 
   const navigate = useNavigate();
+
+  // 글작성 페이지 이동
   const handleNavigateAdd = () => {
-    navigate("/add");
+    navigate("/main/add");
   }
+
+  // 상세페이지 이동
   const handleNavigateDetail = (pId: number) => {
+    sessionStorage.setItem('page', `${page}`);
+    console.log(sessionStorage.getItem('page'));
     navigate(`${pId}`);
   }
+
+  // 검색
   const onChangeSearch = (e: ChangeEvent<HTMLInputElement>) => {
     setSearch(e.target.value)
   }
 
+  // 페이징
   const handlePagination = (n: number) => {
     setPage(n);
+  }
+
+  const handleLogout = () => {
+    tokenStorage.clear();
+    navigate("/login");
   }
 
   return (
@@ -61,7 +75,7 @@ function MainContent() {
         </div>
 
         {/* 게시글 표 */}
-        <div className="mx-auto max-w-4xl px-6 pb-6 border overflow-auto min-h-155">
+        <div className="mx-auto max-w-4xl px-6 pb-6 border overflow-auto min-h-135">
           <section className="mt-8" aria-label="게시글 목록">
             <div className={`${GRID} border-b border-stone-300 pb-2 text-lg font-semibold text-stone-500`}>
               <span>번호</span>
@@ -86,34 +100,20 @@ function MainContent() {
         </div>
 
         {/* 페이지네이션 버튼 */}
+        <div className="mt-8">
+          <ul className="flex gap-4 justify-center items-center">
+          {pgBtn.map(b => (
+            <li className="flex justify-center items-center text-xl w-8 h-8 border rounded-xl active:bg-gray-400" key={b}>
+              <button className="px-2" onClick={() => handlePagination(b)} >{b}</button>
+            </li>
+          ))}
+          </ul>
+        </div>
 
-        {/*------------------------------------flex 가로정렬로 바꿀것*/}
-        {pgBtn.map(b => (
-          <div className="mt-4" key={b}>
-            <ul className="flex gap-5 justify-center items-center">
-              <li className="text-xl border">
-                <button className="px-2" onClick={() => handlePagination(b)} >{b}</button>
-              </li>
-            </ul>
-          </div>
+        <div className="border max-w-20 mt-10 m-auto text-center bg-red-500 text-gray-100" onClick={handleLogout}>
+          <button>로그아웃</button>
+        </div>
 
-
-        ))}
-
-
-        {/*<div className="mt-4 ">*/}
-        {/*  <ul className="flex gap-5 justify-center items-center">*/}
-        {/*    <li className="text-xl border">*/}
-        {/*      <button className="px-2" onClick={() => handlePagination(1)} >1</button>*/}
-        {/*    </li>*/}
-        {/*    <li className="text-xl border">*/}
-        {/*      <button className="px-2" onClick={() => handlePagination(2)} >2</button>*/}
-        {/*    </li>*/}
-        {/*    <li className="text-xl border">*/}
-        {/*      <button className="px-2" onClick={() => handlePagination(3)} >3</button>*/}
-        {/*    </li>*/}
-        {/*  </ul>*/}
-        {/*</div>*/}
       {/* -------------------end------------------ */}
       </div>
     </div>
