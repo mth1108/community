@@ -1,7 +1,12 @@
-import axios from "axios";
 import {type ChangeEvent, useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
 import {client} from "../api/client.ts";
+
+const GROUP = 'mt-4 w-120'
+const LABEL = 'mb-1 text-xs font-semibold text-stone-500'
+const FIELD = 'w-full rounded-lg border border-stone-300 bg-white px-3 py-2'
+const BUTTON_OUTLINE = 'rounded-lg border border-stone-300 bg-white px-4 py-2 text-sm font-medium text-stone-700 hover:bg-stone-100'
+const BUTTON_PRIMARY = 'rounded-lg bg-blue-500 px-4 py-2 text-sm font-medium text-white hover:bg-blue-600'
 
 function AddContent() {
   const navigate = useNavigate();
@@ -9,7 +14,7 @@ function AddContent() {
   const [title, setTitle] = useState<string>("");
   const [content, setContent] = useState<string>("");
 
-  const [userData, setUserData] = useState<{token: string, username: string}>();
+  const [userData, setUserData] = useState<{id: number, username: string}>();
 
   const today = new Date();
   const year = today.getFullYear().toString();
@@ -36,7 +41,7 @@ function AddContent() {
     const me = async () => {
       const response = await client.get("/auth/me")
       setUserData(response.data);
-      // console.log(response.data);
+      console.log(response.data);
     };
 
     me();
@@ -50,19 +55,13 @@ function AddContent() {
       return;
     }
 
-    await axios({
-      // url: "https://glabrescent-squirtingly-diedre.ngrok-free.dev/addposts", // 통신할 웹문서
-      url: "/api/posts/addposts", // 통신할 웹문서
-      method: 'post', // 통신할 방식
-      headers: {
-        'ngrok-skip-browser-warning': 'true'
-      },
-      data: { // 인자로 보낼 데이터
-        title: title,
-        name: userData?.username,
-        content: content,
-        date: resultDate
-      }
+    // post는 (url, 본문) 순서다. name/date는 서버가 채우므로 보내도 무시된다.
+    await client.post("/posts/addposts", {
+      title: title,
+      name: userData?.username,
+      content: content,
+      date: resultDate,
+      userId: userData?.id
     });
     navigate('/main');
   }
@@ -70,53 +69,53 @@ function AddContent() {
   return(
     <>
       <div className="min-h-dvh bg-stone-50 text-stone-900">
-        <div className="mx-auto max-w-full">
+        <div>
 
           {/* 메인콘텐츠 */}
-          <div className="flex flex-col items-center min-h-dvh mx-auto max-w-4xl px-6 py-6 border">
+          <div className="mx-auto flex min-h-dvh max-w-4xl flex-col items-center border border-stone-300 px-6 py-6">
 
-            <div className="border">
-              <button onClick={handleBack}>뒤로가기</button>
+            <div>
+              <button className={BUTTON_OUTLINE} onClick={handleBack}>뒤로가기</button>
             </div>
 
             {/* 제목 */}
-            <div className="my-4">
-              <p>제목</p>
+            <div className={GROUP}>
+              <p className={LABEL}>제목</p>
               <input
                 value={title}
                 onChange={onChangeTitle}
-                className="w-120 border p-1"
+                className={FIELD}
                 placeholder="제목을 입력하세요"
               />
             </div>
 
             {/* 작성자 (추후 로그인 기능 개발시 삭제) */}
-            <div className="mb-2">
-              <p>작성자</p>
+            <div className={GROUP}>
+              <p className={LABEL}>작성자</p>
               <input
                 value={userData?.username}
                 readOnly
-                className="w-120 border p-1"
+                className={`${FIELD} text-stone-600`}
                 placeholder="작성자를 입력하세요"
               />
             </div>
 
             {/* 내용 */}
-            <div className="mb-4 mt-2">
-              <p>내용</p>
+            <div className={GROUP}>
+              <p className={LABEL}>내용</p>
               <textarea
                 value={content}
                 onChange={onChangeContent}
                 rows={3}
-                className="w-120 border p-1 resize-none"
+                className={`${FIELD} resize-none leading-relaxed`}
                 placeholder="내용을 입력하세요"
               />
             </div>
 
             {/* 작성 버튼 */}
-            <div>
+            <div className="mt-6">
               <button
-                className="border w-12 h-10 text-white bg-blue-500"
+                className={BUTTON_PRIMARY}
                 onClick={handleInsertPosts}
               >
                 작성

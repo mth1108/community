@@ -3,6 +3,10 @@ import {useUserId} from "../hooks/useUser.ts";
 import {type ChangeEvent, useState} from "react";
 import {useNavigate} from "react-router-dom";
 
+const ROW = 'flex items-center gap-2'
+const LABEL = 'w-16 text-stone-600'
+const FIELD = 'rounded-lg border border-stone-300 bg-white px-3 py-2'
+const BUTTON_OUTLINE = 'rounded-lg border border-stone-300 bg-white p-4 font-medium text-stone-700 hover:bg-stone-100 active:bg-stone-200'
 
 function Login() {
 
@@ -33,30 +37,30 @@ function Login() {
   return(
     <>
       <div className="max-h-dvh min-h-195 bg-stone-50 text-stone-900">
-        <div className="mx-auto max-w-full">
+        <div>
 
-          <div className="flex flex-col justify-center items-center pt-20">
+          <div className="flex flex-col items-center justify-center pt-20">
 
-            <p className="text-3xl pb-4">
+            <p className="pb-4 text-3xl">
               로그인
             </p>
 
             {/* 로그인 메인카드 */}
-            <div>
-              <div>
-                <span>아이디</span>
-                <input className="border mr-1" type="text" value={username} onChange={onChangeUserName}/>
+            <div className="flex flex-col gap-2">
+              <div className={ROW}>
+                <span className={LABEL}>아이디</span>
+                <input className={FIELD} type="text" value={username} onChange={onChangeUserName}/>
               </div>
 
-              <div>
-                <span>PW</span>
-                <input className="border mt-1 mr-1" type="password" value={password} onChange={onChangePassword}/>
+              <div className={ROW}>
+                <span className={LABEL}>PW</span>
+                <input className={FIELD} type="password" value={password} onChange={onChangePassword}/>
               </div>
             </div>
 
-            <div className="flex mt-5 gap-1">
-              <button className="border p-4 active:bg-gray-400" onClick={handleSignup}>회원가입</button>
-              <button className="border p-4 active:bg-gray-400" onClick={handleLogin}>로그인</button>
+            <div className="mt-5 flex gap-2">
+              <button className={BUTTON_OUTLINE} onClick={handleSignup}>회원가입</button>
+              <button className={BUTTON_OUTLINE} onClick={handleLogin}>로그인</button>
             </div>
 
           </div>

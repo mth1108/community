@@ -4,13 +4,12 @@ import {type ChangeEvent, useState} from "react";
 import {tokenStorage} from "../api/tokenStorage.ts";
 
 const GRID = 'grid grid-cols-[48px_1fr_96px_112px] items-center gap-4'
+const FIELD = 'rounded-lg border border-stone-300 bg-white px-3 py-2'
+const BUTTON_OUTLINE = 'rounded-lg border border-stone-300 bg-white px-4 py-2 text-sm font-medium text-stone-700 hover:bg-stone-100'
 
 function MainContent() {
   const [search, setSearch] = useState("");
   const [page, setPage] = useState( Number(sessionStorage.getItem('page')) === 0 ? 1 : Number(sessionStorage.getItem('page')) );
-
-  // 1. 검색시 각 페이지 별로 검색되는데 검색은 다른 페이지까지 검색되어야 함
-  // -> 검색은 전체 데이터를 활용? (API 하나 더 만들어야 함)
 
   const { postsList } = useMainContent(page,6);
   // 검색 구현
@@ -38,7 +37,7 @@ function MainContent() {
   // 상세페이지 이동
   const handleNavigateDetail = (pId: number) => {
     sessionStorage.setItem('page', `${page}`);
-    console.log(sessionStorage.getItem('page'));
+    // console.log(sessionStorage.getItem('page'));
     navigate(`${pId}`);
   }
 
@@ -59,23 +58,23 @@ function MainContent() {
 
   return (
     <div className="max-h-dvh min-h-195 bg-stone-50 text-stone-900">
-      <div className="mx-auto max-w-full">
+      <div>
 
         {/* 검색창, 글추가 버튼 */}
-        <div className="flex mx-auto max-w-4xl border border-b-0 mt-6 h-20 px-6 py-6">
+        <div className="mx-auto mt-6 flex h-20 max-w-4xl items-center gap-2 border border-b-0 border-stone-300 px-6">
           <input
             placeholder="검색하기"
-            className="border w-150"
+            className={`${FIELD} w-150 placeholder:text-stone-400`}
             value={search}
             onChange={onChangeSearch}
           />
-          <button className="border" onClick={handleNavigateAdd}>
+          <button className={BUTTON_OUTLINE} onClick={handleNavigateAdd}>
             글쓰기
           </button>
         </div>
 
         {/* 게시글 표 */}
-        <div className="mx-auto max-w-4xl px-6 pb-6 border overflow-auto min-h-135">
+        <div className="mx-auto min-h-135 max-w-4xl overflow-auto border border-stone-300 px-6 pb-6">
           <section className="mt-8" aria-label="게시글 목록">
             <div className={`${GRID} border-b border-stone-300 pb-2 text-lg font-semibold text-stone-500`}>
               <span>번호</span>
@@ -101,16 +100,16 @@ function MainContent() {
 
         {/* 페이지네이션 버튼 */}
         <div className="mt-8">
-          <ul className="flex gap-4 justify-center items-center">
+          <ul className="flex items-center justify-center gap-4">
           {pgBtn.map(b => (
-            <li className="flex justify-center items-center text-xl w-8 h-8 border rounded-xl active:bg-gray-400" key={b}>
+            <li className="flex h-8 w-8 items-center justify-center rounded-lg border border-stone-300 text-xl active:bg-stone-200" key={b}>
               <button className="px-2" onClick={() => handlePagination(b)} >{b}</button>
             </li>
           ))}
           </ul>
         </div>
 
-        <div className="border max-w-20 mt-10 m-auto text-center bg-red-500 text-gray-100" onClick={handleLogout}>
+        <div className="m-auto mt-10 max-w-20 rounded-lg bg-red-500 py-1 text-center text-white hover:bg-red-600" onClick={handleLogout}>
           <button>로그아웃</button>
         </div>
 

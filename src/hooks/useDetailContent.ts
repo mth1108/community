@@ -1,6 +1,6 @@
 import {useEffect, useState} from "react";
-import axios from "axios";
 import {useParams} from "react-router-dom";
+import {client} from "../api/client.ts";
 
 type Post = {
   id: number;
@@ -8,6 +8,7 @@ type Post = {
   name: string;
   date: string;
   content: string;
+  user_id: number;
 }
 
 export function useDetailContent() {
@@ -20,23 +21,15 @@ export function useDetailContent() {
       title: '',
       name: '',
       date: '',
-      content: ''
+      content: '',
+      user_id: 0
     }
   );
 
   useEffect(() => {
     const fetchDetail = async () => {
-      const response = await axios({
-        // url: 'https://glabrescent-squirtingly-diedre.ngrok-free.dev/selectPostsDetail',
-        url: '/api/posts/selectPostsDetail',
-        method: 'get',
-        params: { id },
-        headers: {
-          'ngrok-skip-browser-warning': 'true'
-        }
-      });
+      const response = await client.get("/posts/selectPostsDetail", {params: {id}});
       setPostsDetail(response.data);
-      console.log(response.data);
     };
 
     fetchDetail();
@@ -51,18 +44,9 @@ export function useDetailContentDelete() {
   const { id } = useParams<{ id: string }>();
 
   const deleteApi = async () => {
-    return await axios({
-      url: '/api/posts/deletePostsDetail',
-      // url: 'https://glabrescent-squirtingly-diedre.ngrok-free.dev/deletePostsDetail',
-      method: "DELETE",
-      params: { id },
-      headers: {
-        'ngrok-skip-browser-warning': 'true'
-      },
-    });
+    // delete는 본문이 없으므로 get과 같이 두 번째 인자가 config다
+    return await client.delete("/posts/deletePostsDetail", {params: {id}});
   }
-
-  // console.log(deleteApi);
 
   return {deleteApi}
 }
@@ -72,25 +56,18 @@ export function useDetailContentUpdate(pTitle: string, pName: string, pContent: 
   const { id } = useParams<{ id: string }>()
 
   const updateApi = async () => {
-    return await axios({
-      url: '/api/posts/updatePostsDetail',
-      // url: 'https://glabrescent-squirtingly-diedre.ngrok-free.dev/updatePostsDetail',
-      method: "PATCH",
-      data: {
+    // patch는 (url, 본문, config) 순서라 쿼리스트링은 세 번째 인자로 들어간다.
+    return await client.patch(
+      "/posts/updatePostsDetail",
+      {
         title: pTitle,
         name: pName,
         content: pContent
       },
-      params: {id},
-      headers: {
-        'ngrok-skip-browser-warning': 'true'
-      },
-    });
+      {params: {id}}
+    );
   }
-
 
   return {updateApi}
 
 }
-
-

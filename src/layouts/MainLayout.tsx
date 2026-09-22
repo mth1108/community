@@ -5,7 +5,7 @@ import FooterLayout from "./FooterLayout.tsx";
 function MainLayout() {
   return(
     <>
-      <div className="w-full mx-auto max-w-full max-h-dvh bg-stone-50 text-stone-900 overflow-hidden">
+      <div className="max-h-dvh w-full overflow-hidden bg-stone-50 text-stone-900">
         <HeaderLayout/>
         <Outlet/>
         <FooterLayout/>

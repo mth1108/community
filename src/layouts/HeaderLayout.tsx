@@ -23,9 +23,9 @@ function HeaderLayout() {
   }, []);
 
   return(
-    <header className="flex justify-between items-center border-b-2 w-full bg-gray-700 text-white border-stone-900 h-18">
-      <h1 className="pl-3 text-3xl font-bold" onClick={handleNavigateMain}>Community</h1>
-      <span className="mr-5 font-bold text-lg text-white">{userData?.username}</span>
+    <header className="flex h-18 w-full items-center justify-between border-b border-stone-900 bg-gray-700 px-6 text-white">
+      <h1 className="text-3xl font-bold" onClick={handleNavigateMain}>Community</h1>
+      <span className="text-lg font-bold">{userData?.username}</span>
     </header>
   );
 }
